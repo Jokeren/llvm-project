@@ -491,7 +491,7 @@ static LogicalResult verifyOpTypeSymbolUses(Operation *op,
   auto verify = [&](Type type) {
     return type.walk<WalkOrder::PreOrder>([&](Type nestedType) {
       if (!verifiedTypes.insert(nestedType))
-        return WalkResult::advance();
+        return WalkResult::skip();
       if (auto user = dyn_cast<SymbolUserTypeInterface>(nestedType))
         if (failed(user.verifySymbolUses(op, symbolTable)))
           return WalkResult::interrupt();
